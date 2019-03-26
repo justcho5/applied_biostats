@@ -2,10 +2,32 @@
 title: "The Effect of the Method of Cutting on the Moisture Content of Samples from Tree Branches"
 output:
   pdf_document:
-    toc: true
+    toc: false
     highlight: zenburn
+geometry: margin=2.5cm
+fontsize: 12pt
 ---
 
-Test
 
+## Introduction
+
+Your report should contain a short background/intro to the problem (including the aim of the original study).
+
+A presentation of the results of your 
+- statistical analyses
+- including exploratory data analysis
+- model fitting and final model
+- along with a short discussion of any shortcomings of the final model
+- your conclusions
+
+
+## Result
+
+```{r, echo=FALSE}
+## this is how you can 
+library(reticulate)
+file <- read.table('tree-moisture.txt', 
+                 col.names = c("Species", "Branch", "Location", "TranspirationType", "Moisture"))
+```
+## Summary
 
