@@ -1,10 +1,14 @@
 ---
-title: "The Effect of the Method of Cutting on the Moisture Content of Samples from Tree Branches"
-output:
-  pdf_document:
-    toc: false
-    highlight: zenburn
+title: The Effect of the Method of Cutting on the Moisture Content of Samples from
+  Tree Branches
 geometry: margin=2.5cm
+output:
+  html_document:
+    df_print: paged
+    toc: no
+  pdf_document:
+    highlight: zenburn
+    toc: no
 fontsize: 12pt
 ---
 
@@ -28,6 +32,123 @@ A presentation of the results of your
 library(reticulate)
 file <- read.table('tree-moisture.txt', 
                  col.names = c("Species", "Branch", "Location", "TranspirationType", "Moisture"))
+file$Species[file$Species==1]<-"LP"
+file$Species[file$Species==2]<-"SP"
+file$Species[file$Species==3]<-"YP"
+file$Species[file$Species==4]<-"RG"
+
+file$Location[file$Location ==1]<-"Central"
+file$Location[file$Location ==2]<-"Distal"
+file$Location[file$Location ==3]<-"Proximal"
+
+file$TranspirationType[file$TranspirationType==1]<-"Rapid"
+file$TranspirationType[file$TranspirationType==2]<-"Slow"
+
+moisture <-file[,c("Species", "Location", "TranspirationType", "Moisture")]
+
+species <- factor(c(moisture$Species))
+location <- factor(c(moisture$Location))
+transpiration <- factor(c(moisture$TranspirationType))
+
+moisture$Species <- species
+moisture$Location <- location
+moisture$TranspirationType <- transpiration
+
 ```
+### Hypotheses:
+- H0: The means of all species groups are equal.
+- H1: The mean of at least one species group is different.
+
+- H0: The means of the location groups are equal.
+- H1: The mean of at least one species group is different.
+
+- H0: The means of the transpiration type groups are equal.
+- H1: The means of the transpiration type groups are different.
+
+- H0: There is no interaction between species and location of cut.
+- H1: There is interaction between species and location of cut.
+
+- H0: There is no interaction between species and transpiration type.
+- H1: There is interaction between species and transpiration type.
+
+- H0: There is no interaction between location of cut and transpiration type.
+- H1: There is interaction between location of cut and transpiration type.
+
+### Exploratory data analysis
+#### Means for each combination of **species**, **location**, **transpiration type**.
+```{r, echo=FALSE}
+file
+tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType),mean)
+```
+#### Standard Deviations for every combination of **species**, **location**, **transpiration type**
+```{r}
+tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), sd)
+```
+```{r}
+tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), median)
+```
+```{r}
+tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), min)
+```
+```{r}
+tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), max)
+```
+```{r}
+utils::str(moisture)
+plot.design(moisture)
+```
+
+##### ANOVA Models
+```{r}
+m_specieslocation.aov <- aov(Moisture ~ Species*Location, data=moisture) 
+summary(m_specieslocation.aov)
+
+m_speciestranspiration.aov <- aov(Moisture ~ Species*TranspirationType, data=moisture) 
+summary(m_speciestranspiration.aov)
+
+m_locationtranspiration.aov <- aov(Moisture ~ Location*TranspirationType, data=moisture) 
+summary(m_locationtranspiration.aov)
+```
+##### coefficients
+
+```{r}
+coef(m_specieslocation.aov)
+coef(m_speciestranspiration.aov)
+coef(m_locationtranspiration.aov)
+
+```
+##### INTERACTION PLOTS
+
+```{r}
+interaction.plot(moisture$Location, moisture$Species, moisture$Moisture)
+interaction.plot(moisture$TranspirationType, moisture$Species, moisture$Moisture)
+interaction.plot(moisture$TranspirationType, moisture$Location, moisture$Moisture)
+
+```
+```{r}
+interaction.plot(moisture$Species, moisture$Location, moisture$Moisture)
+interaction.plot(moisture$Species, moisture$TranspirationType, moisture$Moisture)
+interaction.plot(moisture$Location, moisture$TranspirationType, moisture$Moisture)
+
+```
+
+```{r}
+layout(matrix(1:4,ncol=2)) 
+
+plot(m_specieslocation.aov)
+plot(m_speciestranspiration.aov)
+plot(m_locationtranspiration.aov)
+```
+
+### 2-way ANOVA
+#### 3 2-way ANOVA tests
+##### Species vs. Location
+
+
+##### Species vs Transpiration Type
+
+
+
+##### Location vs Transpiration Type
 ## Summary
 
