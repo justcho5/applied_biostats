@@ -88,6 +88,9 @@ moisture$Moisture <- moisture$Moisture/10
 - H0: There is no interaction between location of cut and transpiration type.
 - H1: There is interaction between location of cut and transpiration type.
 
+-H0: There is no interaction between all three factors.
+-H1: There are interaction among all three factors.
+
 ### Exploratory data analysis
 
 #### Data Format
@@ -140,8 +143,9 @@ max<-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moistur
 ```{r, echo=FALSE}
 plot.design(moisture)
 ```
-
-As we can see, the mean of moisture differs mostly for different species.
+=======
+Plot of univariate factor effects on Moisture content variable.
+The mean of the moisture content seems to change with all the factors, Species, Location, Transpiration type. It would be interesting to also see whether different combinations of the levels of the factors different influence the moisture content of branches. For example we can see whether a specific species, combined with a specific level of Transpiration type affects the moisture content by observing the two-way interaction plot between pairs of factors.
 
 ##### ANOVA Models
 ```{r, echo=FALSE}
@@ -161,39 +165,51 @@ with(moisture, {
 par(op)
 ```
 
-Analysis for interaction plots
-Above, we ob
+Plots of two-way interaction effects of factors on the moisture content variable.
+Above, we observe that there may be an interaction between transpiration type and species, such that the species may affect the moisture content differently based on whether the transpiration type is rapid or slow.
+
 ##### Full model with the three factors considered
+
+In order to say whether the differences between several means plotted are significant, we build an ANOVA model and test each factor and interaction in the model. First we will build a full model with the three factors considered, the two-way interactions between all factors, and the three-way interaction.
 ```{r, echo=FALSE}
 
 modelmatrix = model.matrix(~Species*Location*TranspirationType, moisture)
-
 m <- aov(Moisture ~ Species*TranspirationType*Location, data = moisture)
 summary(m)
 
 ```
 ##### coefficients
 
+
+ All the factors individually appear to affect the mean of the moisutre content, which we observed in the initial means plot. In addition, the species transpiration type factors appear to interact; whereas the other 2-way interactions are not statistically significant. We are interested in finding the best fitted model which explains the variability in the data. Thus we start by dropping the highest-level interactions (3-way).
 ```{r, echo=FALSE}
 m2 <- update(m, . ~ . - Species:TranspirationType:Location)
 summary(m2)
 ```
+We check whether the three removed effects together are still not significant.
+
 ```{r, echo=FALSE}
 anova(m, m2)
 model.tables(m2, type="effects")
 model.tables(m2, type="means")
-
-
+```
+The combinded effect of the three-way interactions is not significant, so we continue on with the model with the main effects only.
+```{r, echo=FALSE}
+model.tables(m2, type="effects")
+model.tables(m2, type="means")
+```
+The species:location and transpiration type:location appear not to interact so similarly, we remove those two-way interactions. Finally, we remove the two 2-way interactions to obtain the final model with only significant effects
+```{r, echo=FALSE}
 m3 <- update(m2, . ~ . - Species:Location)
 m3 <- update(m3, . ~ . - TranspirationType:Location)
 summary(m3)
 
 ```
-
-coef(m_specieslocation.aov)
-coef(m_speciestranspiration.aov)
-coef(m_locationtranspiration.aov)
-
+```{r, echo=FALSE}
+#coef(m_specieslocation.aov)
+#coef(m_speciestranspiration.aov)
+#coef(m_locationtranspiration.aov)
+```
 
 ##### INTERACTION PLOTS
 
@@ -202,10 +218,11 @@ coef(m_locationtranspiration.aov)
 
 ```{r, echo=FALSE}
 layout(matrix(1:4,ncol=2)) 
-
 plot(m3)
 ```
-
+```{r, echo=FALSE}
+moisture %>% group_by(moisture$Species, moisture$TranspirationType) %>% summarise(mean(Moisture))
+```
 ### 2-way ANOVA
 #### 3 2-way ANOVA tests
 ##### Species vs. Location
