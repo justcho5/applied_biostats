@@ -157,7 +157,9 @@ m2 <- update(m, . ~ . - Species:TranspirationType:Location)
 summary(m2)
 ```
 ```{r}
-
+anova(m, m2)
+```
+```{r}
 coef(m_specieslocation.aov)
 coef(m_speciestranspiration.aov)
 coef(m_locationtranspiration.aov)
