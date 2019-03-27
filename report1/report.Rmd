@@ -3,11 +3,11 @@ title: The Effect of the Method of Cutting on the Moisture Content of Samples fr
   Tree Branches
 geometry: margin=2.5cm
 output:
-  pdf_document:
-    highlight: zenburn
-    toc: no
   html_document:
     df_print: paged
+    toc: no
+  pdf_document:
+    highlight: zenburn
     toc: no
 fontsize: 12pt
 author:
@@ -42,34 +42,6 @@ The xylem elements, which transport the water in the branch, are under tension. 
 
 The aim is to find the optimal method in order to minimize the water loss during the cut. The original question posed by the study was if there is a difference in the moisture content between adjacent samples of the same branch. 
 
-## Exploratory Analysis
-
-## Result
-
-```{r, echo=FALSE}
-## this is how you can 
-library(reticulate)
-library(dplyr)
-file <- read.table('tree-moisture.txt', 
-                 col.names = c("Species", "Branch", "Location", "TranspirationType", "Moisture"))
-file$Species[file$Species==1]<-"LP"
-file$Species[file$Species==2]<-"SP"
-file$Species[file$Species==3]<-"YP"
-file$Species[file$Species==4]<-"RG"
-file$Location[file$Location ==1]<-"Central"
-file$Location[file$Location ==2]<-"Distal"
-file$Location[file$Location ==3]<-"Proximal"
-file$TranspirationType[file$TranspirationType==1]<-"Rapid"
-file$TranspirationType[file$TranspirationType==2]<-"Slow"
-moisture <-file[,c("Species", "Location", "TranspirationType", "Moisture")]
-species <- factor(c(moisture$Species))
-location <- factor(c(moisture$Location))
-transpiration <- factor(c(moisture$TranspirationType))
-moisture$Species <- species
-moisture$Location <- location
-moisture$TranspirationType <- transpiration
-moisture$Moisture <- moisture$Moisture/10
-```
 ### Hypotheses:
 - H0: The means of all species groups are equal.
 - H1: The mean of at least one species group is different.
@@ -92,7 +64,31 @@ moisture$Moisture <- moisture$Moisture/10
 -H0: There is no interaction between all three factors.
 -H1: There are interaction among all three factors.
 
-### Exploratory data analysis
+## Exploratory Analysis
+
+```{r, echo=FALSE}
+## this is how you can 
+library(reticulate)
+file <- read.table('tree-moisture.txt', 
+                 col.names = c("Species", "Branch", "Location", "TranspirationType", "Moisture"))
+file$Species[file$Species==1]<-"LP"
+file$Species[file$Species==2]<-"SP"
+file$Species[file$Species==3]<-"YP"
+file$Species[file$Species==4]<-"RG"
+file$Location[file$Location ==1]<-"Central"
+file$Location[file$Location ==2]<-"Distal"
+file$Location[file$Location ==3]<-"Proximal"
+file$TranspirationType[file$TranspirationType==1]<-"Rapid"
+file$TranspirationType[file$TranspirationType==2]<-"Slow"
+moisture <-file[,c("Species", "Location", "TranspirationType", "Moisture")]
+species <- factor(c(moisture$Species))
+location <- factor(c(moisture$Location))
+transpiration <- factor(c(moisture$TranspirationType))
+moisture$Species <- species
+moisture$Location <- location
+moisture$TranspirationType <- transpiration
+moisture$Moisture <- moisture$Moisture/10
+```
 
 #### Data Format
 
@@ -111,11 +107,9 @@ library(kableExtra)
 
 mean <- tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType),mean)
 
-kable(mean, caption = "Mean Moisture")
-
-x <- kable(mean, col.names = c("Central", "Distal", "Proximal", "Central", "Distal", "Proximal")) 
-kable_styling(x, "striped")
-add_header_above(x, c(" " = 1, "Rapid" = 3, "Slow" = 3))
+kable(mean, col.names = c("Central", "Distal", "Proximal", "Central", "Distal", "Proximal"))
+#kable_styling(x, "striped")
+#add_header_above(x, c(" " = 1, "Rapid" = 3, "Slow" = 3))
       
 ```
 
@@ -179,8 +173,6 @@ m <- aov(Moisture ~ Species*TranspirationType*Location, data = moisture)
 summary(m)
 
 ```
-##### coefficients
-
 
  All the factors individually appear to affect the mean of the moisutre content, which we observed in the initial means plot. In addition, the species transpiration type factors appear to interact; whereas the other 2-way interactions are not statistically significant. We are interested in finding the best fitted model which explains the variability in the data. Thus we start by dropping the highest-level interactions (3-way).
 ```{r, echo=FALSE}
@@ -223,18 +215,14 @@ plot(m3)
 ```
 
 ```{r, echo=FALSE}
-moisture %>% group_by(moisture$Species, moisture$TranspirationType) %>% summarise(mean(Moisture))
+
+moisture %>% dplyr::group_by(moisture$Species, moisture$TranspirationType) %>% dplyr::summarise(mean(Moisture))
 ```
 
-### 2-way ANOVA
-#### 3 2-way ANOVA tests
-##### Species vs. Location
 
+###along with a short discussion of any shortcomings of the final model
+# - your conclusions
 
-##### Species vs Transpiration Type
+Conclusion:
 
-
-
-##### Location vs Transpiration Type
-## Summary
 
