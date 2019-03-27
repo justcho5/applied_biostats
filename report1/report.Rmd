@@ -224,7 +224,7 @@ plot(m3)
 ```
 
 ```{r, echo=FALSE}
-#moisture %>% group_by(moisture$Species, moisture$TranspirationType) %>% summarise(mean(Moisture))
+moisture %>% group_by(moisture$Species, moisture$TranspirationType) %>% summarise(mean(Moisture))
 ```
 
 ### 2-way ANOVA
