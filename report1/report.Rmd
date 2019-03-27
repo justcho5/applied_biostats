@@ -31,40 +31,36 @@ header-includes: |
 ---
 
 ## Problem
-
-In order to measure the water content of a woody structure, samples were taken from the branch. 
-Water can be lost during the cut and make the moisture content and therefore the sample unreliable. 
-In this study different cutting methods have been compared for their water loss. 
-
-Four different sample with two different cuts were taken from a single branch. The first cut was done simultaneously in the middle of the branch. The next two cuts were performed after each other on both ends of the branch.
+In this project, we analyze a dataset of moisture content from tree branch samples in order to understand how moisture content changes with the method of cutting. Water can be lost during the cut and make the moisture content and therefore the sample unreliable. For this study, samples were taken from branches to measure the water content of a woody structure. Four different sample with two different cuts were taken from a single branch. The first cut was done simultaneously in the middle of the branch. The next two cuts were performed after each other on both ends of the branch.
 
 The xylem elements, which transport the water in the branch, are under tension. Cutting the branch on one end will result the tension to be released on that end and cause the removal of water. On the other hand, cutting them on both ends will result the tension to be reliefed on both ends and result in lesser water loss. 
 
-The aim is to find the optimal method in order to minimize the water loss during the cut. The original question posed by the study was if there is a difference in the moisture content between adjacent samples of the same branch. 
-
+The aim is to find the optimal method in order to minimize the water loss during the cut. The original question posed by the study was if there is a difference in the moisture content between adjacent samples of the same branch.
+```{r, echo=FALSE}
 ### Hypotheses:
-- H0: The means of all species groups are equal.
-- H1: The mean of at least one species group is different.
+#- H0: The means of all species groups are equal.
+#- H1: The mean of at least one species group is different.
 
-- H0: The means of the location groups are equal.
-- H1: The mean of at least one species group is different.
+#- H0: The means of the location groups are equal.
+#- H1: The mean of at least one species group is different.
 
-- H0: The means of the transpiration type groups are equal.
-- H1: The means of the transpiration type groups are different.
+#- H0: The means of the transpiration type groups are equal.
+#- H1: The means of the transpiration type groups are different.
 
-- H0: There is no interaction between species and location of cut.
-- H1: There is interaction between species and location of cut.
+#- H0: There is no interaction between species and location of cut.
+#- H1: There is interaction between species and location of cut.
 
-- H0: There is no interaction between species and transpiration type.
-- H1: There is interaction between species and transpiration type.
+#- H0: There is no interaction between species and transpiration type.
+#- H1: There is interaction between species and transpiration type.
 
-- H0: There is no interaction between location of cut and transpiration type.
-- H1: There is interaction between location of cut and transpiration type.
+#- H0: There is no interaction between location of cut and transpiration type.
+#- H1: There is interaction between location of cut and transpiration type.
 
--H0: There is no interaction between all three factors.
--H1: There are interaction among all three factors.
-
+#-H0: There is no interaction between all three factors.
+#-H1: There are interaction among all three factors.
+```
 ## Exploratory Analysis
+First, we will have briefly analyze the dataset to get some insights into how the different factors may affect the moisture content in branches.
 
 ```{r, echo=FALSE}
 ## this is how you can 
@@ -207,9 +203,6 @@ summary(m3)
 #coef(m_locationtranspiration.aov)
 ```
 
-##### INTERACTION PLOTS
-
-
 
 
 ```{r, echo=FALSE}
@@ -219,7 +212,7 @@ plot(m3)
 
 ```{r, echo=FALSE}
 #moisture %>% dplyr::group_by(moisture$Species, moisture$TranspirationType) %>% dplyr::summarise(mean(Moisture))
->>>>>>> f45f06a52df8ab85647b4e32e2162b93319e8fb9 ``` 
+```
 
 ###along with a short discussion of any shortcomings of the final model
 # - your conclusions
