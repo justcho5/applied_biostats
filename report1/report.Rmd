@@ -3,11 +3,11 @@ title: The Effect of the Method of Cutting on the Moisture Content of Samples fr
   Tree Branches
 geometry: margin=2.5cm
 output:
-  html_document:
-    df_print: paged
-    toc: no
   pdf_document:
     highlight: zenburn
+    toc: no
+  html_document:
+    df_print: paged
     toc: no
 fontsize: 12pt
 author:
@@ -92,25 +92,6 @@ moisture$Moisture <- moisture$Moisture/10
 #### Means for each combination of **species**, **location**, **transpiration type**.
 
 
-
-mean%>%
-  kable() %>%
-  kable_styling()
-
-sd%>%
-  kable()%>%
-  kable_styling()
-
-median%>%
-  kable()%>%
-  kable_styling()
-
-min%>%
-  kable()%>%
-  kable_styling()
-max%>%
-  kable()%>%
-  kable_styling()
 ```{r, echo=FALSE}
 file
 mean <- tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType),mean)
@@ -135,7 +116,7 @@ plot.design(moisture)
 ```
 
 ##### ANOVA Models
-```{r}
+```{r, echo=FALSE}
 op <-par(mfrow = c(3,1))
 ?par()
 par(mar=c(2,2,2,5))
@@ -151,7 +132,7 @@ par(op)
 
 ```
 ##### Full model with the three factors considered
-```{r}
+```{r, echo=FALSE}
 
 modelmatrix = model.matrix(~Species*Location*TranspirationType, moisture)
 
@@ -161,34 +142,36 @@ summary(m)
 ```
 ##### coefficients
 
-```{r}
+```{r, echo=FALSE}
 m2 <- update(m, . ~ . - Species:TranspirationType:Location)
 summary(m2)
 ```
-```{r}
+```{r, echo=FALSE}
 anova(m, m2)
+model.tables(m2, type="effects")
+model.tables(m2, type="means")
+
+
+m3 <- update(m2, . ~ . - Species:Location)
+m3 <- update(m3, . ~ . - TranspirationType:Location)
+summary(m3)
+
 ```
-```{r}
+
 coef(m_specieslocation.aov)
 coef(m_speciestranspiration.aov)
 coef(m_locationtranspiration.aov)
 
-```
+
 ##### INTERACTION PLOTS
 
 
-```{r}
-interaction.plot(moisture$Species, moisture$Location, moisture$Moisture)
-interaction.plot(moisture$Species, moisture$TranspirationType, moisture$Moisture)
-interaction.plot(moisture$Location, moisture$TranspirationType, moisture$Moisture)
-```
 
-```{r}
+
+```{r, echo=FALSE}
 layout(matrix(1:4,ncol=2)) 
 
-plot(m_specieslocation.aov)
-plot(m_speciestranspiration.aov)
-plot(m_locationtranspiration.aov)
+plot(m3)
 ```
 
 ### 2-way ANOVA
