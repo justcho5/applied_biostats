@@ -88,6 +88,9 @@ moisture$Moisture <- moisture$Moisture/10
 - H0: There is no interaction between location of cut and transpiration type.
 - H1: There is interaction between location of cut and transpiration type.
 
+-H0: There is no interaction between all three factors.
+-H1: There are interaction among all three factors.
+
 ### Exploratory data analysis
 #### Means for each combination of **species**, **location**, **transpiration type**.
 
