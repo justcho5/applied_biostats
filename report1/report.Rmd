@@ -50,7 +50,6 @@ The aim is to find the optimal method in order to minimize the water loss during
 ## this is how you can 
 library(reticulate)
 library(dplyr)
-library(kableExtra)
 file <- read.table('tree-moisture.txt', 
                  col.names = c("Species", "Branch", "Location", "TranspirationType", "Moisture"))
 file$Species[file$Species==1]<-"LP"
