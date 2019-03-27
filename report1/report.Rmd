@@ -90,16 +90,8 @@ moisture$Moisture <- moisture$Moisture/10
 
 ### Exploratory data analysis
 #### Means for each combination of **species**, **location**, **transpiration type**.
-```{r, echo=FALSE}
-file
-mean <- tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType),mean)
 
-sd <- tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), sd)
 
-median <-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), median)
-
-min <-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), min)
-max<-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), max)
 
 mean%>%
   kable() %>%
@@ -119,6 +111,23 @@ min%>%
 max%>%
   kable()%>%
   kable_styling()
+```{r, echo=FALSE}
+file
+mean <- tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType),mean)
+
+sd <- tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), sd)
+
+median <-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), median)
+
+min <-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), min)
+max<-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), max)
+
+mean
+sd
+median
+min
+max
+
 
 str(moisture)
 plot.design(moisture)
