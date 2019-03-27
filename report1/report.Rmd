@@ -142,6 +142,11 @@ plot.design(moisture)
 Plot of univariate factor effects on Moisture content variable.
 The mean of the moisture content seems to change with all the factors, Species, Location, Transpiration type. It would be interesting to also see whether different combinations of the levels of the factors different influence the moisture content of branches. For example we can see whether a specific species, combined with a specific level of Transpiration type affects the moisture content by observing the two-way interaction plot between pairs of factors.
 
+```{r, echo=FALSE}
+#boxplot(moisture$Moisture ~ moisture$Location, data = moisture )
+```
+
+
 ##### ANOVA Models
 ```{r, echo=FALSE}
 op <-par(mfrow = c(3,1))
@@ -183,13 +188,11 @@ We check whether the three removed effects together are still not significant.
 
 ```{r, echo=FALSE}
 anova(m, m2)
-model.tables(m2, type="effects")
-model.tables(m2, type="means")
+
 ```
-The combinded effect of the three-way interactions is not significant, so we continue on with the model with the main effects only.
+The combined effect of the three-way interactions is not significant, so we continue on with the model with the main effects only.
 ```{r, echo=FALSE}
-model.tables(m2, type="effects")
-model.tables(m2, type="means")
+
 ```
 The species:location and transpiration type:location appear not to interact so similarly, we remove those two-way interactions. Finally, we remove the two 2-way interactions to obtain the final model with only significant effects
 ```{r, echo=FALSE}
@@ -215,10 +218,8 @@ plot(m3)
 ```
 
 ```{r, echo=FALSE}
-
-moisture %>% dplyr::group_by(moisture$Species, moisture$TranspirationType) %>% dplyr::summarise(mean(Moisture))
-```
-
+#moisture %>% dplyr::group_by(moisture$Species, moisture$TranspirationType) %>% dplyr::summarise(mean(Moisture))
+>>>>>>> f45f06a52df8ab85647b4e32e2162b93319e8fb9 ``` 
 
 ###along with a short discussion of any shortcomings of the final model
 # - your conclusions
