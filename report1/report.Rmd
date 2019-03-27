@@ -3,9 +3,6 @@ title: The Effect of the Method of Cutting on the Moisture Content of Samples fr
   Tree Branches
 geometry: margin=2.5cm
 output:
-  html_document:
-    df_print: paged
-    toc: no
   pdf_document:
     highlight: zenburn
     toc: no
@@ -129,21 +126,20 @@ max<-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moistur
 #str(moisture)
 ```
 
-## Interactions
 
 ```{r, echo=FALSE}
 plot.design(moisture)
 ```
-=======
+
 Plot of univariate factor effects on Moisture content variable.
+
 The mean of the moisture content seems to change with all the factors, Species, Location, Transpiration type. It would be interesting to also see whether different combinations of the levels of the factors different influence the moisture content of branches. For example we can see whether a specific species, combined with a specific level of Transpiration type affects the moisture content by observing the two-way interaction plot between pairs of factors.
 
 ```{r, echo=FALSE}
 #boxplot(moisture$Moisture ~ moisture$Location, data = moisture )
 ```
 
-
-##### ANOVA Models
+#### Interactions
 ```{r, echo=FALSE}
 op <-par(mfrow = c(3,1))
 ?par()
@@ -164,6 +160,7 @@ par(op)
 Plots of two-way interaction effects of factors on the moisture content variable.
 Above, we observe that there may be an interaction between transpiration type and species, such that the species may affect the moisture content differently based on whether the transpiration type is rapid or slow.
 
+#### ANOVA Models
 ##### Full model with the three factors considered
 
 In order to say whether the differences between several means plotted are significant, we build an ANOVA model and test each factor and interaction in the model. First we will build a full model with the three factors considered, the two-way interactions between all factors, and the three-way interaction.
@@ -212,11 +209,11 @@ plot(m3)
 
 ```{r, echo=FALSE}
 #moisture %>% dplyr::group_by(moisture$Species, moisture$TranspirationType) %>% dplyr::summarise(mean(Moisture))
-```
-
 ###along with a short discussion of any shortcomings of the final model
 # - your conclusions
 
-Conclusion:
+#Conclusion:
+```
+
 
 
