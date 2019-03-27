@@ -67,6 +67,7 @@ transpiration <- factor(c(moisture$TranspirationType))
 moisture$Species <- species
 moisture$Location <- location
 moisture$TranspirationType <- transpiration
+moisture$Moisture <- moisture$Moisture/10
 ```
 ### Hypotheses:
 - H0: The means of all species groups are equal.
@@ -91,41 +92,72 @@ moisture$TranspirationType <- transpiration
 #### Means for each combination of **species**, **location**, **transpiration type**.
 ```{r, echo=FALSE}
 file
-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType),mean)
-```
+mean <- tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType),mean)
 
-#### Standard Deviations for every combination of **species**, **location**, **transpiration type**
-```{r}
-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), sd)
-```
-```{r}
-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), median)
-```
-```{r}
-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), min)
-```
-```{r}
-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), max)
-```
-```{r}
-utils::str(moisture)
+sd <- tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), sd)
+
+median <-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), median)
+
+min <-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), min)
+max<-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), max)
+
+mean%>%
+  kable() %>%
+  kable_styling()
+
+sd%>%
+  kable()%>%
+  kable_styling()
+
+median%>%
+  kable()%>%
+  kable_styling()
+
+min%>%
+  kable()%>%
+  kable_styling()
+max%>%
+  kable()%>%
+  kable_styling()
+
+str(moisture)
 plot.design(moisture)
+
 ```
 
 ##### ANOVA Models
 ```{r}
-m_specieslocation.aov <- aov(Moisture ~ Species*Location, data=moisture) 
-summary(m_specieslocation.aov)
+op <-par(mfrow = c(3,1))
+?par()
+par(mar=c(2,2,2,5))
 
-m_speciestranspiration.aov <- aov(Moisture ~ Species*TranspirationType, data=moisture) 
-summary(m_speciestranspiration.aov)
 
-m_locationtranspiration.aov <- aov(Moisture ~ Location*TranspirationType, data=moisture) 
-summary(m_locationtranspiration.aov)
+with(moisture, {
+  interaction.plot(moisture$Location, moisture$Species, moisture$Moisture)
+  interaction.plot(moisture$TranspirationType, moisture$Species, moisture$Moisture)
+  interaction.plot(moisture$TranspirationType, moisture$Location, moisture$Moisture)
+  }
+)
+par(op)
+
+```
+##### Full model with the three factors considered
+```{r}
+
+modelmatrix = model.matrix(~Species*Location*TranspirationType, moisture)
+
+m <- aov(Moisture ~ Species*TranspirationType*Location, data = moisture)
+summary(m)
+
 ```
 ##### coefficients
 
 ```{r}
+m2 <- update(m, . ~ . - Species:TranspirationType:Location)
+summary(m2)
+```
+```{r}
+
 coef(m_specieslocation.aov)
 coef(m_speciestranspiration.aov)
 coef(m_locationtranspiration.aov)
@@ -133,17 +165,11 @@ coef(m_locationtranspiration.aov)
 ```
 ##### INTERACTION PLOTS
 
-```{r}
-interaction.plot(moisture$Location, moisture$Species, moisture$Moisture)
-interaction.plot(moisture$TranspirationType, moisture$Species, moisture$Moisture)
-interaction.plot(moisture$TranspirationType, moisture$Location, moisture$Moisture)
 
-```
 ```{r}
 interaction.plot(moisture$Species, moisture$Location, moisture$Moisture)
 interaction.plot(moisture$Species, moisture$TranspirationType, moisture$Moisture)
 interaction.plot(moisture$Location, moisture$TranspirationType, moisture$Moisture)
-
 ```
 
 ```{r}
