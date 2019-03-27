@@ -93,7 +93,7 @@ moisture$Moisture <- moisture$Moisture/10
 
 
 ```{r, echo=FALSE}
-file
+head(file)
 mean <- tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType),mean)
 
 sd <- tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), sd)
@@ -114,7 +114,7 @@ str(moisture)
 plot.design(moisture)
 
 ```
-
+Plot of univariate facto
 ##### ANOVA Models
 ```{r, echo=FALSE}
 op <-par(mfrow = c(3,1))
@@ -129,8 +129,9 @@ with(moisture, {
   }
 )
 par(op)
-
 ```
+Analysis for interaction plots
+Above, we ob
 ##### Full model with the three factors considered
 ```{r, echo=FALSE}
 
