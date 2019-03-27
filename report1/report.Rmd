@@ -89,13 +89,35 @@ moisture$Moisture <- moisture$Moisture/10
 - H1: There is interaction between location of cut and transpiration type.
 
 ### Exploratory data analysis
-#### Means for each combination of **species**, **location**, **transpiration type**.
+
+#### Data Format
+
+```{r, echo=FALSE}
+library(knitr)
+kable(head(file), caption = "Data extract")
+```
+
+The data contains the moisture content measurement for each species, location and transpiration type. Five samples were taken for each combination.
+
+#### Means for each combination of **species**, **location**, **transpiration type**
+
+```{r, echo=FALSE}
+library(knitr)
+library(kableExtra)
+
+mean <- tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType),mean)
+
+kable(mean, caption = "Mean Moisture")
+
+x <- kable(mean, col.names = c("Central", "Distal", "Proximal", "Central", "Distal", "Proximal")) 
+kable_styling(x, "striped")
+add_header_above(x, c(" " = 1, "Rapid" = 3, "Slow" = 3))
+      
+```
+
 
 
 ```{r, echo=FALSE}
-head(file)
-mean <- tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType),mean)
-
 sd <- tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), sd)
 
 median <-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), median)
@@ -103,33 +125,42 @@ median <-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moi
 min <-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), min)
 max<-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType), max)
 
-mean
-sd
-median
-min
-max
+#head(mean)
+#mean
+#sd
+#median
+#min
+#max
 
-
-str(moisture)
-plot.design(moisture)
-
+#str(moisture)
 ```
-Plot of univariate facto
+
+## Interactions
+
+```{r, echo=FALSE}
+plot.design(moisture)
+```
+
+As we can see, the mean of moisture differs mostly for different species.
+
 ##### ANOVA Models
 ```{r, echo=FALSE}
 op <-par(mfrow = c(3,1))
 ?par()
 par(mar=c(2,2,2,5))
 
-
 with(moisture, {
-  interaction.plot(moisture$Location, moisture$Species, moisture$Moisture)
-  interaction.plot(moisture$TranspirationType, moisture$Species, moisture$Moisture)
-  interaction.plot(moisture$TranspirationType, moisture$Location, moisture$Moisture)
-  }
-)
+  interaction.plot(moisture$Location, moisture$Species, moisture$Moisture,  
+                   xlab = "Location", ylab = "Moisture", trace.label="Species")
+  interaction.plot(moisture$TranspirationType, moisture$Species, moisture$Moisture, 
+                   xlab = "Transpiration", ylab = "Moisture", trace.label="Species")
+  
+  interaction.plot(moisture$TranspirationType, moisture$Location, moisture$Moisture,  
+                   xlab = "Transpiration", ylab = "Moisture", trace.label="Location")  
+})
 par(op)
 ```
+
 Analysis for interaction plots
 Above, we ob
 ##### Full model with the three factors considered
