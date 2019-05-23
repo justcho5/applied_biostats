@@ -1,0 +1,52 @@
+---
+title: 'Risk factors of central lymph node metastasis in papillary thyroid carcinoma: A retrospective cohort study'
+geometry: margin=2.5cm
+output:
+  pdf_document:
+    highlight: zenburn
+    toc: no
+    pandoc_args: [
+      "-V", "classoption=twocolumn"
+    ]
+fontsize: 12pt
+author:
+- "Hyun Jii Cho"
+- "Kirusanth Poopalasingam"
+header-includes: |
+    \usepackage{fancyhdr}
+    \pagestyle{fancy}
+    \fancyhead[CO,CE]{Hyun Jii, Poopalasingam}
+---
+
+###### 1. Briefly give the biomedical background for the paper. What question/hypothesis is being investigated?
+
+Papillary thyroid cancer (PTC) accounts for 80% of Thyroid cancer (TC). The most important risk factor for PTC is Central lymp node metastases (CLNM). The study analyzes the association between clinical features and CLNM in PTC patients. 
+
+###### 2. What data are collected (include how many individuals, what variables)?
+
+The following data were collected for 180 patients, which went for a thyroid surgery primarely for PTC:
+Age, Gender, Size of the tumor ( largest diameter measured by preoperative ultrasound), multifocality (more than 1 foci of PTC in total), HT(Hashimoto's thyroiditis), LVI(lymphovascular invasion), ETE (extrathyroidal extension). 
+
+HT, LVI and ETE were identified by  definitive histopathology.
+
+###### 3. What analyses were carried out? Are these analyses appropriate for the problem?
+
+In order to test for the independence of the features, Chi-squared (??2) test was performed between categorial features. 
+For the predictability of the features  univariate logistic and binary logistic regression were performed, where a p value of < 0.05 was considered statistically significant.
+
+###### 4. What other analyses should have been done (or might have been done but not shown)? Explain.
+
+Since 81.7% of the patients were femal, a sperata analysi of female and male would have been useful. 
+
+
+###### 5. Is there any mention of power of the analyses? How would you go about trying to estimate power?
+?
+
+###### 6. What conclusions do the authors draw? Are these conclusions substantiated by the results? Explain.
+
+CLNM was higher in multifocal patients than unifocal patients. LVI was an important predictor of CLNM in PTC patients. 
+
+This study finds HT as a risk factor for PTC, but other studies don't.
+
+Age, male sex, tumor size and ETE were not predictive of CLNM. 
+
