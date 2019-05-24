@@ -1,6 +1,6 @@
 ---
 title: 'Risk factors of central lymph node metastasis in papillary thyroid carcinoma: A retrospective cohort study'
-geometry: margin=2.5cm
+geometry: margin=1.9cm
 output:
   pdf_document:
     highlight: zenburn
@@ -17,33 +17,18 @@ header-includes: |
     \pagestyle{fancy}
     \fancyhead[CO,CE]{Hyun Jii, Poopalasingam}
 ---
-
-###### 1. Briefly give the biomedical background for the paper. What question/hypothesis is being investigated?
-
 Papillary thyroid cancer (PTC) accounts for 80% of Thyroid cancer (TC).The most important risk factor for PTC is central lymph node metastases (CLNM). Prophylactic central central lymph node dissection (CLND) is recommended to PTC patients because of the high incidence of central CLNM and the low diagnostic efficacy of ultrasound, which is used as the main diagnostic tool to decide the TNM stage of PTC before surgery. However, some researchers question whether this procedure may create more health complications; thus, some risk factors could be considered in the preoperative clinical decision regarding the necessity of prophylactic central lymph node dissection. The study in the paper analyzes the association between clinical features and CLNM in PTC patients. 
 
-###### 2. What data are collected (include how many individuals, what variables)?
 Initially, data from a total of 202 patients with PTC who had any type of thyroidectomy or lobectomy between 2014 and 2016 were collected. However, patients with other head and neck malignancies or who did not at first have surgery for PTC were excluded. Finally the following data for 180 patients were included in the study:
 Age, Gender, Size of  tumor (largest diameter measured by preoperative ultrasound), multifocality (more than 1 foci of PTC in total), lymph node metastasis, Hashimoto's thyroiditis (HT), lymphovascular invasion (LVI), and extrathyroidal extension (ETE). 
 
-###### 3. What analyses were carried out? Are these analyses appropriate for the problem?
-
-In order to test for the independence of the features, Chi-squared (??2) test was performed between categorial features. In addition, in order to understand whether there is a relationship between the above clinicopathologic features and CLNM, univariate logistic and binary logistic regression were performed, where a p-value of < 0.05 was considered statistically significant.
-
-###### 4. What other analyses should have been done (or might have been done but not shown)? Explain.
+In order to test for the independence of the features, Chi-squared test was performed between categorial features. In addition, in order to understand whether there is a relationship between the above clinicopathologic features and CLNM, univariate logistic and binary logistic regression were performed, where a p-value of < 0.05 was considered statistically significant.
 
 Because the sample size is small and the data is unequally distributed for factors like gender, they could use the Fisher exact test instead of the chi-squared. In addition, the Cochran-Mantel-Haenszel test could have been informative because it adjusts for confounding factors when estimating the association between an exposure and an outcome. For example, they notice that 81.7% of the patients were female, so they could have done this analysis for matched categorical data.
 
+Furthermore, they  mention that their sample size was not large enough to confirm the predictive results. If the sample size is too small, the researchers may be committing a Type II error because of insufficient power. Power analysis allows us to determine the sample size required to detect an effect of a given size and with a certain level of confidence. Effect size, total sample size, and the significance level can be used to determine the power. The significance is usually set to 0.05 and the researcher primarily needs to be concerned with the sample size and effect size. In order to estimate power, the GPower software can be used and it supports many designs, such as chi-squared and logistic regression.
 
-###### 5. Is there any mention of power of the analyses? How would you go about trying to estimate power?
-They do mention that their sample size was not large enough to confirm the predictive results. If the sample size is too small, the researchers may be committing a Type II error because of insufficient power. Power analysis allows us to determine the sample size required to detect an effect of a given size and with a certain level of confidence. Effect size, total sample size, and the significance level can be used to determine the power. The significance is usually set to 0.05 and the researcher primarily needs to be concerned with the sample size and effect size. In order to estimate power, the GPower software can be used and it supports many designs, such as chi-squared and logistic regression.
-###### 6. What conclusions do the authors draw? Are these conclusions substantiated by the results? Explain.
-
-CLNM was higher in multifocal patients than unifocal patients. LVI was an important predictor of CLNM in PTC patients. 
-
-This study finds HT as a risk factor for PTC, but other studies don't.
-
-Age, male sex, tumor size and ETE were not predictive of CLNM. 
+In conclusions, CLNM was higher in multifocal patients than unifocal patients. LVI was an important predictor of CLNM in PTC patients. This study finds HT as a risk factor for PTC, but other studies don't. Age, male sex, tumor size and ETE were not predictive of CLNM. 
 
 We believe that the conclusions need to be confirmed by doing a study on a larger cohort and to match for gender in order to determine whether multifocality, HT, and LVI are truly risk factors because they may be affected by the gender.
 
