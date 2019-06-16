@@ -13,7 +13,7 @@ author:
 header-includes: |
     \usepackage{fancyhdr}
     \pagestyle{fancy}
-    \fancyhead[CO,CE]{Hyun Jii, Poopalasingam}
+    \fancyhead[CO,CE]{Cho, Poopalasingam}
 ---
 
 ---
@@ -57,7 +57,8 @@ The aim is to find the optimal method in order to minimize the water loss during
 #-H1: There are interaction among all three factors.
 ```
 ## Exploratory Analysis
-First, we will have briefly analyze the dataset to get some insights into how the different factors may affect the moisture content in branches.
+First, we will have briefly analyze the dataset to get some insights into how the different factors may affect the moisture content in branches. The data contains the moisture content measurement for each species, location and transpiration type. Five samples were taken for each combination.
+
 
 ```{r, echo=FALSE}
 ## this is how you can 
@@ -84,14 +85,6 @@ moisture$TranspirationType <- transpiration
 moisture$Moisture <- moisture$Moisture/10
 ```
 
-#### Data Format
-
-```{r, echo=FALSE}
-library(knitr)
-kable(head(file), caption = "Data extract")
-```
-
-The data contains the moisture content measurement for each species, location and transpiration type. Five samples were taken for each combination.
 
 #### Means for each combination of **species**, **location**, **transpiration type**
 
@@ -143,7 +136,7 @@ The mean of the moisture content seems to change with all the factors: Species, 
 
 #### Interactions
 
-```{r, echo=FALSE, fig.cap="Interaction plot"}
+```{r, echo=FALSE, fig.cap="Interaction plot",  out.width="80%", fig.align="center"}
 op <-par(mfrow = c(3,1))
 ?par()
 par(mar=c(2,2,2,5))
@@ -190,7 +183,7 @@ dat <- tribble(
 "Residuals", 14448, 151,"",""
 )
 
-kable(dat, caption = "First model ANOVA")
+#kable(dat, caption = "First model ANOVA")
 ```
 
  All the factors individually appear to affect the mean of the moisture content, which we observed in the initial means plot. In addition, the species transpiration type factors appear to interact; whereas the other 2-way interactions are not statistically significant. We are interested in finding the best fitted model which explains the variability in the data. Thus we start by dropping the highest-level interactions (3-way).
@@ -216,13 +209,7 @@ dat <- tribble(
 # kable(dat, caption = "ANOVA after dropping Species:TranspirationType:Location")
 ```
 
-We check whether the three removed effects together are still not significant.
-
-```{r, echo=FALSE}
-# anova(m, m2)
-
-```
-We find that the combined effect of the three-way interactions is not significant (p > 0.05), so we continue on with the model with the main effects only.
+We check whether the three removed effects together are still not significant and find that the combined effect of the three-way interactions is not significant (p > 0.05), so we continue on with the model with the main effects only.
 
 The species:location and transpiration type:location appear not to interact so similarly, we remove those two-way interactions to obtain the final model with only significant effects
 ```{r, echo=FALSE}
