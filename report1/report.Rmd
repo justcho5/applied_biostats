@@ -211,8 +211,9 @@ layout(matrix(1:4,ncol=2))
 model.tables(m3, type="means")
 plot(m3)
 ```
+Now, we can evaluate our model. We want a residuals vs fitted plot that is without clear patterns in the data, no obvious outliers, and generally symmetrically distributed around 0. Our plot is relatively shapeless; however, there are a few potential outliers: samples 109, 102, 22. Next, with the Q-Q plot, we can determine whether the dependent variable is normally distributed by plotting quantiles from our distribution against a theoretical distribution. Our plot is mostly linear so the distribution is fairly normal; however, the samples 109, 102, and 22 appear again to be outliers. We see these samples again in the Scale-Location plot and the Constant Leverage plot. 
 
-
+We remove the samples and build the model again.
 
 ```{r, echo=FALSE}
 #moisture %>% dplyr::group_by(moisture$Species, moisture$TranspirationType) %>% dplyr::summarise(mean(Moisture))
