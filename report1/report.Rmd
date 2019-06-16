@@ -170,15 +170,50 @@ In order to say whether the differences between several means plotted are signif
 
 modelmatrix = model.matrix(~Species*Location*TranspirationType, moisture)
 m <- aov(Moisture ~ Species*TranspirationType*Location, data = moisture)
-summary(m)
+# summary(m)
 
+library(kableExtra)
+library(tibble)
+
+dat <- tribble(
+  ~'Sum Sq', ~'Mean Sq',  ~'Mean Sq', ~'F value', ~'p',
+"Species"                             ,14326 ,  4775 ,31.729,2.44e-14,
+"TranspirationType"                   , 3942 ,  3942 ,26.194,1.58e-06,
+"Location"                            , 2546 ,  1273 , 8.458,0.000414,
+"Species:TranspirationType"           , 3060 ,  1020 , 6.776,0.000341,
+"Species:Location"                    ,  473 ,    79 , 0.523,0.789320,
+"TranspirationType:Location"          ,  704 ,   352 , 2.338,0.102015,
+"Species:TranspirationType:Location"  , 1635 ,   272 , 1.811,0.105013, 
+"Residuals", 14448, 151,"",""
+)
+
+kable(dat, caption = "First model ANOVA")
 ```
+
+
 
  All the factors individually appear to affect the mean of the moisutre content, which we observed in the initial means plot. In addition, the species transpiration type factors appear to interact; whereas the other 2-way interactions are not statistically significant. We are interested in finding the best fitted model which explains the variability in the data. Thus we start by dropping the highest-level interactions (3-way).
 ```{r, echo=FALSE}
 m2 <- update(m, . ~ . - Species:TranspirationType:Location)
-summary(m2)
+#summary(m2)
+
+library(kableExtra)
+library(tibble)
+
+dat <- tribble(
+  ~'Sum Sq', ~'Mean Sq',  ~'Mean Sq', ~'F value', ~'p',
+"Species"                     , 14326   ,4775 ,30.285,4.39e-14,
+"TranspirationType"         ,    3942   ,3942 ,25.002,2.39e-06,
+"Location"                  ,    2546   ,1273 , 8.073,0.000556,
+"Species:TranspirationType" ,    3060   ,1020 , 6.468,0.000473,
+"Species:Location"          ,     473   ,  79 , 0.500,0.807398,
+"TranspirationType:Location",     704   , 352 , 2.231,0.112596,
+"Residuals", 16083, 158, "", ""
+)
+
+kable(dat, caption = "ANOVA after dropping Species:TranspirationType:Location")
 ```
+
 We check whether the three removed effects together are still not significant.
 
 ```{r, echo=FALSE}
@@ -193,7 +228,20 @@ The species:location and transpiration type:location appear not to interact so s
 ```{r, echo=FALSE}
 m3 <- update(m2, . ~ . - Species:Location)
 m3 <- update(m3, . ~ . - TranspirationType:Location)
-summary(m3)
+#summary(m3)
+
+library(kableExtra)
+library(tibble)
+
+dat <- tribble(
+  ~'Sum Sq', ~'Mean Sq',  ~'Mean Sq', ~'F value', ~'p',
+"Species"                     ,14326  ,4775 ,30.435,2.10e-14,
+"TranspirationType"           , 3942  ,3942 ,25.125,2.07e-06,
+"Location"                    , 2546  ,1273 , 8.113,0.000517,
+"Species:TranspirationType"   , 3060  ,1020 , 6.500,0.000433,
+"Residuals", 17259, 157, "", ""
+)
+kable(dat, caption = "Final ANOVA model")
 
 ```
 ```{r, echo=FALSE}
