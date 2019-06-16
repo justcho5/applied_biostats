@@ -64,6 +64,7 @@ First, we will have briefly analyze the dataset to get some insights into how th
 library(reticulate)
 file <- read.table('tree-moisture.txt', 
                  col.names = c("Species", "Branch", "Location", "TranspirationType", "Moisture"))
+
 file$Species[file$Species==1]<-"LP"
 file$Species[file$Species==2]<-"SP"
 file$Species[file$Species==3]<-"YP"
@@ -193,6 +194,7 @@ kable(dat, caption = "First model ANOVA")
 ```
 
  All the factors individually appear to affect the mean of the moisture content, which we observed in the initial means plot. In addition, the species transpiration type factors appear to interact; whereas the other 2-way interactions are not statistically significant. We are interested in finding the best fitted model which explains the variability in the data. Thus we start by dropping the highest-level interactions (3-way).
+ 
 ```{r, echo=FALSE}
 m2 <- update(m, . ~ . - Species:TranspirationType:Location)
 #summary(m2)
@@ -261,6 +263,14 @@ plot(m3)
 
 
 ```{r, echo=FALSE}
+
+
+moisture <- moisture[-c(22, 109, 102), ]
+m <- aov(Moisture ~ Species*TranspirationType*Location, data = moisture)
+m2 <- update(m, . ~ . - Species:TranspirationType:Location)
+m3 <- update(m2, . ~ . - Species:Location)
+m3 <- update(m3, . ~ . - TranspirationType:Location)
+plot(m3)
 #moisture %>% dplyr::group_by(moisture$Species, moisture$TranspirationType) %>% dplyr::summarise(mean(Moisture))
 ###along with a short discussion of any shortcomings of the final model
 # - your conclusions
