@@ -100,7 +100,8 @@ library(kableExtra)
 
 mean <- tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moisture$TranspirationType),mean)
 
-kable(mean, col.names = c("Central", "Distal", "Proximal", "Central", "Distal", "Proximal"))
+kable(mean,  col.names = c("Central", "Distal", "Proximal", "Central", "Distal", "Proximal"), caption = "Mean moisture")
+
 #kable_styling(x, "striped")
 #add_header_above(x, c(" " = 1, "Rapid" = 3, "Slow" = 3))
       
@@ -127,7 +128,7 @@ max<-tapply(moisture$Moisture, list(moisture$Species, moisture$Location, moistur
 ```
 
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, fig.cap="Mean moisture content grouped by species, location and transpiration type"}
 plot.design(moisture)
 ```
 
@@ -140,7 +141,8 @@ The mean of the moisture content seems to change with all the factors, Species, 
 ```
 
 #### Interactions
-```{r, echo=FALSE}
+
+```{r, echo=FALSE, fig.cap="Interaction plot"}
 op <-par(mfrow = c(3,1))
 ?par()
 par(mar=c(2,2,2,5))
