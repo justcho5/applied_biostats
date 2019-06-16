@@ -263,21 +263,4 @@ Now, we can evaluate our model. We want a residuals vs fitted plot that is witho
 
 We remove the samples and build the model again.
 
-```{r, echo=FALSE}
-
-
-moisture <- moisture[-c(22, 109, 102), ]
-m <- aov(Moisture ~ Species*TranspirationType*Location, data = moisture)
-m2 <- update(m, . ~ . - Species:TranspirationType:Location)
-m3 <- update(m2, . ~ . - Species:Location)
-m3 <- update(m3, . ~ . - TranspirationType:Location)
-plot(m3)
-#moisture %>% dplyr::group_by(moisture$Species, moisture$TranspirationType) %>% dplyr::summarise(mean(Moisture))
-###along with a short discussion of any shortcomings of the final model
-# - your conclusions
-
-#Conclusion:
-```
-
-
 
