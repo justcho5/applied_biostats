@@ -213,19 +213,17 @@ dat <- tribble(
 "Residuals", 16083, 158, "", ""
 )
 
-kable(dat, caption = "ANOVA after dropping Species:TranspirationType:Location")
+# kable(dat, caption = "ANOVA after dropping Species:TranspirationType:Location")
 ```
 
 We check whether the three removed effects together are still not significant.
 
 ```{r, echo=FALSE}
-anova(m, m2)
+# anova(m, m2)
 
 ```
-The combined effect of the three-way interactions is not significant, so we continue on with the model with the main effects only.
-```{r, echo=FALSE}
+We find that the combined effect of the three-way interactions is not significant (p > 0.05), so we continue on with the model with the main effects only.
 
-```
 The species:location and transpiration type:location appear not to interact so similarly, we remove those two-way interactions to obtain the final model with only significant effects
 ```{r, echo=FALSE}
 m3 <- update(m2, . ~ . - Species:Location)
@@ -246,21 +244,21 @@ dat <- tribble(
 kable(dat, caption = "Final ANOVA model")
 
 ```
-```{r, echo=FALSE}
-#coef(m_specieslocation.aov)
-#coef(m_speciestranspiration.aov)
-#coef(m_locationtranspiration.aov)
-```
 
-
-
+### Conclusion
 ```{r, echo=FALSE}
 layout(matrix(1:4,ncol=2)) 
-model.tables(m3, type="means")
 plot(m3)
+# along with a short discussion of any shortcomings of the final model, and your conclusions
 ```
+
+
 Now, we can evaluate our model. We want a residuals vs fitted plot that is without clear patterns in the data, no obvious outliers, and generally symmetrically distributed around 0. Our plot is relatively shapeless; however, there are a few potential outliers: samples 109, 102, 22. Next, with the Q-Q plot, we can determine whether the dependent variable is normally distributed by plotting quantiles from our distribution against a theoretical distribution. Our plot is mostly linear so the distribution is fairly normal; however, the samples 109, 102, and 22 appear again to be outliers. We see these samples again in the Scale-Location plot and the Constant Leverage plot. 
 
-We remove the samples and build the model again.
+Our model is generally good; however, there could be improvements by removing the three observation that may be outliers in our model, as show in the residual analysis. Furthermore, the ANOVA test tells us which factors significantly impact the moisture content; however, it doesn't reveal exactly where the differences lie. Thus, we could perform a Tukey's Honest Significant Difference test (Tukey's HSD) to investigate the effect of the individual factors, such as cut location, in more detail. This procedure would allow us to compare all pairs of levels of a factor.
+
+With our final model, we found that species, transpiration type, location of cut, and species with transpiration type, were all impacted moisture content of the branches. It is important to note that the rate of transpiration can be confounded with time. The tests for rapid transpiration and slow transpiration were made two weeks apart and the soil moisture can decrease during this time. Thus, the lesser amount of moisture content during slow transpiration may not be conclusive.
+
+The location of the cut in particular is significant (p < 0.001). We found that the mean value for the moisture content for the central sample was 119.01, the distal 114.38, and the proximal 107.78. The moisture content is greater in the central sample. A better representation of the water distribution in the branch can be obtained by removing the effects of tension present in the xylem. This can be achieved by cutting both ends of the twig segment at the same time.
 
 
