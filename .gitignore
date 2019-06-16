@@ -2,4 +2,5 @@
 **/report.log
 **/.DS_Store
 **/.Rhistory
+**/.RData
 .Rproj.user
