@@ -28,7 +28,7 @@ header-includes: |
 ---
 
 ## Problem
-In this project, we analyze a dataset of moisture content from tree branch samples in order to understand how moisture content changes with the method of cutting. Water can be lost during the cut and make the moisture content and therefore the sample unreliable. For this study, samples were taken from branches to measure the water content of a woody structure. Four different sample with two different cuts were taken from a single branch. The first cut was done simultaneously in the middle of the branch. The next two cuts were performed after each other on both ends of the branch.
+In this project, we analyze a dataset of moisture content from tree branch samples in order to understand how moisture content changes with the method of cutting. Water can be lost during the cut and as a consequence, the moisture content measurement and therefore the sample may be unrealiable. For this study, samples were taken from branches to measure the water content of a woody structure. Four different samples with two different cuts were taken from a single branch. The first sample was done by simultaneously making two cuts in the middle of the branch. The next two cuts were performed after each other on both ends of the branch.
 
 The xylem elements, which transport the water in the branch, are under tension. Cutting the branch on one end will result the tension to be released on that end and cause the removal of water. On the other hand, cutting them on both ends will result the tension to be reliefed on both ends and result in lesser water loss. 
 
@@ -134,7 +134,7 @@ plot.design(moisture)
 
 Plot of univariate factor effects on Moisture content variable.
 
-The mean of the moisture content seems to change with all the factors, Species, Location, Transpiration type. It would be interesting to also see whether different combinations of the levels of the factors different influence the moisture content of branches. For example we can see whether a specific species, combined with a specific level of Transpiration type affects the moisture content by observing the two-way interaction plot between pairs of factors.
+The mean of the moisture content seems to change with all the factors: Species, Location, and Transpiration type. It would be interesting to also see whether different combinations of the levels of the factors different influence the moisture content of branches. For example we can see whether a specific species, combined with a specific level of Transpiration type affects the moisture content by observing the two-way interaction plot between pairs of factors.
 
 ```{r, echo=FALSE}
 #boxplot(moisture$Moisture ~ moisture$Location, data = moisture )
@@ -160,7 +160,9 @@ par(op)
 ```
 
 Plots of two-way interaction effects of factors on the moisture content variable.
-Above, we observe that there may be an interaction between transpiration type and species, such that the species may affect the moisture content differently based on whether the transpiration type is rapid or slow.
+Above, we observe that there may be an interaction between transpiration type and species, such that the species may affect the moisture content differently based on whether the transpiration type is rapid or slow. In particular it looks like the moisture content of the LP species is not different between rapid and slow transpiration; whereas, in the other species, the moisture content decreases for slow transpiration.
+
+Furthermore, although the moisture content is lower for slow transpiration for all types of cutes, the difference in moisture content between rapid and slow transpiration is greater when the location of the cut is central.
 
 #### ANOVA Models
 ##### Full model with the three factors considered
@@ -174,7 +176,7 @@ summary(m)
 
 ```
 
- All the factors individually appear to affect the mean of the moisutre content, which we observed in the initial means plot. In addition, the species transpiration type factors appear to interact; whereas the other 2-way interactions are not statistically significant. We are interested in finding the best fitted model which explains the variability in the data. Thus we start by dropping the highest-level interactions (3-way).
+ All the factors individually appear to affect the mean of the moisture content, which we observed in the initial means plot. In addition, the species transpiration type factors appear to interact; whereas the other 2-way interactions are not statistically significant. We are interested in finding the best fitted model which explains the variability in the data. Thus we start by dropping the highest-level interactions (3-way).
 ```{r, echo=FALSE}
 m2 <- update(m, . ~ . - Species:TranspirationType:Location)
 summary(m2)
@@ -189,7 +191,7 @@ The combined effect of the three-way interactions is not significant, so we cont
 ```{r, echo=FALSE}
 
 ```
-The species:location and transpiration type:location appear not to interact so similarly, we remove those two-way interactions. Finally, we remove the two 2-way interactions to obtain the final model with only significant effects
+The species:location and transpiration type:location appear not to interact so similarly, we remove those two-way interactions to obtain the final model with only significant effects
 ```{r, echo=FALSE}
 m3 <- update(m2, . ~ . - Species:Location)
 m3 <- update(m3, . ~ . - TranspirationType:Location)
@@ -206,8 +208,11 @@ summary(m3)
 
 ```{r, echo=FALSE}
 layout(matrix(1:4,ncol=2)) 
+model.tables(m3, type="means")
 plot(m3)
 ```
+
+
 
 ```{r, echo=FALSE}
 #moisture %>% dplyr::group_by(moisture$Species, moisture$TranspirationType) %>% dplyr::summarise(mean(Moisture))
