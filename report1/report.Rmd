@@ -13,7 +13,7 @@ author:
 header-includes: |
     \usepackage{fancyhdr}
     \pagestyle{fancy}
-    \fancyhead[CO,CE]{Hyun Jii, Poopalasingam}
+    \fancyhead[CO,CE]{Cho, Poopalasingam}
 ---
 
 ---
@@ -28,9 +28,9 @@ header-includes: |
 ---
 
 ## Problem
-In this project, we analyze a dataset of moisture content from tree branch samples in order to understand how moisture content changes with the method of cutting. Water can be lost during the cut and as a consequence, the moisture content measurement and therefore the sample may be unrealiable. For this study, samples were taken from branches to measure the water content of a woody structure. Four different samples with two different cuts were taken from a single branch. The first sample was done by simultaneously making two cuts in the middle of the branch. The next two cuts were performed after each other on both ends of the branch.
+In this project, we analyze a dataset of moisture content from tree branch samples in order to understand how moisture content changes with the method of cutting. Water can be lost during the cut and as a consequence, the moisture content measurement and therefore the sample may be unreliable. For this study, samples were taken from branches to measure the water content of a woody structure. Four different samples with two different cuts were taken from a single branch. The first sample was done by simultaneously making two cuts in the middle of the branch. The next two cuts were performed after each other on both ends of the branch.
 
-The xylem elements, which transport the water in the branch, are under tension. Cutting the branch on one end will result the tension to be released on that end and cause the removal of water. On the other hand, cutting them on both ends will result the tension to be reliefed on both ends and result in lesser water loss. 
+The xylem elements, which transport the water in the branch, are under tension. Cutting the branch on one end will result the tension to be released on that end and cause the removal of water. On the other hand, cutting them on both ends will result the tension to be relieved on both ends and result in lesser water loss. 
 
 The aim is to find the optimal method in order to minimize the water loss during the cut. The original question posed by the study was if there is a difference in the moisture content between adjacent samples of the same branch.
 ```{r, echo=FALSE}
@@ -57,7 +57,8 @@ The aim is to find the optimal method in order to minimize the water loss during
 #-H1: There are interaction among all three factors.
 ```
 ## Exploratory Analysis
-First, we will have briefly analyze the dataset to get some insights into how the different factors may affect the moisture content in branches.
+First, we will have briefly analyze the dataset to get some insights into how the different factors may affect the moisture content in branches. The data contains the moisture content measurement for each species, location and transpiration type. Five samples were taken for each combination.
+
 
 ```{r, echo=FALSE}
 ## this is how you can 
@@ -84,14 +85,6 @@ moisture$TranspirationType <- transpiration
 moisture$Moisture <- moisture$Moisture/10
 ```
 
-#### Data Format
-
-```{r, echo=FALSE}
-library(knitr)
-kable(head(file), caption = "Data extract")
-```
-
-The data contains the moisture content measurement for each species, location and transpiration type. Five samples were taken for each combination.
 
 #### Means for each combination of **species**, **location**, **transpiration type**
 
@@ -143,19 +136,18 @@ The mean of the moisture content seems to change with all the factors: Species, 
 
 #### Interactions
 
-```{r, echo=FALSE, fig.cap="Interaction plot"}
-op <-par(mfrow = c(3,1))
-?par()
+```{r, echo=FALSE, fig.cap="Interaction plot",  fig.align="center", fig.height=2.5, fig2}
+op <-par(mfrow = c(1,3))
 par(mar=c(2,2,2,5))
 
 with(moisture, {
   interaction.plot(moisture$Location, moisture$Species, moisture$Moisture,  
                    xlab = "Location", ylab = "Moisture", trace.label="Species")
-  interaction.plot(moisture$TranspirationType, moisture$Species, moisture$Moisture, 
-                   xlab = "Transpiration", ylab = "Moisture", trace.label="Species")
   
   interaction.plot(moisture$TranspirationType, moisture$Location, moisture$Moisture,  
                    xlab = "Transpiration", ylab = "Moisture", trace.label="Location")  
+  interaction.plot(moisture$TranspirationType, moisture$Species, moisture$Moisture, 
+                   xlab = "Transpiration", ylab = "Moisture", trace.label="Species")
 })
 par(op)
 ```
@@ -163,12 +155,14 @@ par(op)
 Plots of two-way interaction effects of factors on the moisture content variable.
 Above, we observe that there may be an interaction between transpiration type and species, such that the species may affect the moisture content differently based on whether the transpiration type is rapid or slow. In particular it looks like the moisture content of the LP species is not different between rapid and slow transpiration; whereas, in the other species, the moisture content decreases for slow transpiration.
 
-Furthermore, although the moisture content is lower for slow transpiration for all types of cutes, the difference in moisture content between rapid and slow transpiration is greater when the location of the cut is central.
+Furthermore, although the moisture content is lower for slow transpiration for all types of Cuts, the difference in moisture content between rapid and slow transpiration is greater when the location of the cut is central.
 
 #### ANOVA Models
+
 ##### Full model with the three factors considered
 
-In order to say whether the differences between several means plotted are significant, we build an ANOVA model and test each factor and interaction in the model. First we will build a full model with the three factors considered, the two-way interactions between all factors, and the three-way interaction.
+In order to say whether the differences between several means plotted are significant, we build an ANOVA model and test each factor and interaction in the model. For the ANOVA model we have to satisfy the following three assumptions: Independence of the data, Homoscedasticity of the groups and normality of the data within the group. The samples were collected independently. From Figure 3 we see in the Normal Q-Q plot a straight line, which indicates the data is normally distributed. In the Residual vs Fitted plot we can clearly see the straight red line as sign for heteroscedasticity. 
+First we will build a full model with the three factors considered, the two-way interactions between all factors, and the three-way interaction.
 ```{r, echo=FALSE}
 
 modelmatrix = model.matrix(~Species*Location*TranspirationType, moisture)
@@ -218,7 +212,9 @@ dat <- tribble(
 
 We check whether the three removed effects together are still not significant and find that the combined effect of the three-way interactions is not significant (p > 0.05), so we continue on with the model with the main effects only.
 
-The species:location and transpiration type:location appear not to interact so similarly, we remove those two-way interactions to obtain the final model with only significant effects.
+The species:location and transpiration type:location appear not to interact so similarly, we remove those two-way interactions to obtain the final model with only significant effects: 
+
+>>>>>>> 18ae4400b57150486bf19e0792221ed68e47e034
 ```{r, echo=FALSE}
 m3 <- update(m2, . ~ . - Species:Location)
 m3 <- update(m3, . ~ . - TranspirationType:Location)
@@ -240,7 +236,7 @@ kable(dat, caption = "Final ANOVA model")
 ```
 
 ### Conclusion
-```{r, echo=FALSE}
+```{r, echo=FALSE, fig.height=10, fig.width=10, fig.align="center", fig.cap="Final model"}
 layout(matrix(1:4,ncol=2)) 
 plot(m3)
 # along with a short discussion of any shortcomings of the final model, and your conclusions
