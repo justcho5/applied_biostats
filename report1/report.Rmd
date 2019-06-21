@@ -190,10 +190,10 @@ dat <- tribble(
 "Residuals", 14448, 151,"",""
 )
 
-kable(dat, caption = "First model ANOVA")
+#kable(dat, caption = "First model ANOVA")
 ```
 
- All the factors individually appear to affect the mean of the moisture content, which we observed in the initial means plot. In addition, the species transpiration type factors appear to interact; whereas the other 2-way interactions are not statistically significant. We are interested in finding the best fitted model which explains the variability in the data. Thus we start by dropping the highest-level interactions (3-way).
+ All the factors individually appear to affect the mean of the moisture content, which we observed in the initial means plot. In addition, the species transpiration type factors appear to interact; whereas the other 2-way interactions are not statistically significant. We are interested in finding the best fitted model which explains the variability in the data. Thus, we start by dropping the highest-level interactions (3-way).
  
 ```{r, echo=FALSE}
 m2 <- update(m, . ~ . - Species:TranspirationType:Location)
@@ -216,15 +216,9 @@ dat <- tribble(
 # kable(dat, caption = "ANOVA after dropping Species:TranspirationType:Location")
 ```
 
-We check whether the three removed effects together are still not significant.
+We check whether the three removed effects together are still not significant and find that the combined effect of the three-way interactions is not significant (p > 0.05), so we continue on with the model with the main effects only.
 
-```{r, echo=FALSE}
-# anova(m, m2)
-
-```
-We find that the combined effect of the three-way interactions is not significant (p > 0.05), so we continue on with the model with the main effects only.
-
-The species:location and transpiration type:location appear not to interact so similarly, we remove those two-way interactions to obtain the final model with only significant effects
+The species:location and transpiration type:location appear not to interact so similarly, we remove those two-way interactions to obtain the final model with only significant effects.
 ```{r, echo=FALSE}
 m3 <- update(m2, . ~ . - Species:Location)
 m3 <- update(m3, . ~ . - TranspirationType:Location)
@@ -251,7 +245,6 @@ layout(matrix(1:4,ncol=2))
 plot(m3)
 # along with a short discussion of any shortcomings of the final model, and your conclusions
 ```
-
 
 Now, we can evaluate our model. We want a residuals vs fitted plot that is without clear patterns in the data, no obvious outliers, and generally symmetrically distributed around 0. Our plot is relatively shapeless; however, there are a few potential outliers: samples 109, 102, 22. Next, with the Q-Q plot, we can determine whether the dependent variable is normally distributed by plotting quantiles from our distribution against a theoretical distribution. Our plot is mostly linear so the distribution is fairly normal; however, the samples 109, 102, and 22 appear again to be outliers. We see these samples again in the Scale-Location plot and the Constant Leverage plot. 
 
